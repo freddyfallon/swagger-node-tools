@@ -1,0 +1,39 @@
+{
+  "name": "swagger-node-tools",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "nodemon src --watch src --exec ts-node -e ts,js,json,yml",
+    "compile": "tsc --noEmit",
+    "test": "./node_modules/.bin/jest --watch",
+    "test-ci": "./node_modules/.bin/jest"
+  },
+  "dependencies": {
+    "typescript": "^3.1.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4",
+    "ts-jest": "^23.10.3",
+    "ts-node": "^7.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "globalSetup": "./jest.config.ts",
+    "collectCoverage": true
+  },
+  "babel": {
+    "presets": [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  }
+}
