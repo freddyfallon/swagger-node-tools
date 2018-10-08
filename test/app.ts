@@ -1,5 +1,5 @@
 import express from "express"
-import swaggerNodeTools from "../src"
+import swaggerNodeTools from "../src/validator"
 
 const app = express()
 
