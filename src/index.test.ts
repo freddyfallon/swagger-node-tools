@@ -1,5 +1,12 @@
-describe('whatever', () => {
-  test('1 + 1 = 2', () => {
-    expect(1 + 1).toEqual(2)
+import validator from "./"
+
+describe("Validator", () => {
+  test("calls next", () => {
+    const req = {}
+    const res = {}
+    const next = jest.fn()
+    expect(next).not.toHaveBeenCalled()
+    validator(req, res, next)
+    expect(next).toHaveBeenCalled()
   })
 })
