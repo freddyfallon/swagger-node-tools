@@ -1,4 +1,5 @@
 import requestValidator from './request-validator'
+
 describe('requestValidator', () => {
   test('calls next', () => {
     const req = {}
