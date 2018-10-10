@@ -1,30 +1,100 @@
 export interface Info {
-  title: string	// REQUIRED. The title of the application.
+  title: string // REQUIRED. The title of the application.
   // description: string	//A short description of the application. CommonMark syntax MAY be used for rich text representation.
   // termsOfService: string	//A URL to the Terms of Service for the API. MUST be in the format of a URL.
   // contact: Contact //Object	The contact information for the exposed API.
   // license: License //Object	The license information for the exposed API.
-  version: string//	REQUIRED. The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).
+  version: string //	REQUIRED. The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).
 }
 
 export interface Paths {
   [path: string]: PathItem // contains pathItems
 }
 
+type HttpVerb =
+  | 'get'
+  | 'put'
+  | 'post'
+  | 'delete'
+  | 'options'
+  | 'head'
+  | 'patch'
+  | 'trace'
+
+type Bar = { [key in HttpVerb]: string }
+
+interface ServerVariableObject {
+  enum?: [string]
+  default: string
+  description?: string
+}
+
+interface Server {
+  url: string
+  description?: string
+  variable?: Map<string, ServerVariableObject>
+}
+
+interface Parameter {
+  name: string
+  in: string
+  description?: string
+  required: boolean // if the parameter location is path it is required, otherwise it isn't: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
+  deprecated?: boolean
+  allowEmptyValue?: boolean
+}
+
+interface Reference {
+  $ref: string
+}
+
+interface Responses {
+  default: Response | Reference
+  [statusCode: number]: Response | Reference
+}
+
+// interface Callback {
+//   [expression: string]: PathItem
+// }
+
+// interface SecurityRequirement {
+//   [name: string]: [string]
+// }
+
+/*
+Each name MUST correspond to a security scheme which is declared in the Security Schemes under the Components Object.
+If the security scheme is of type "oauth2" or "openIdConnect", then the value is a list of scope names required for the execution.
+For other security scheme types, the array MUST be empty.
+*/
+
+interface Operation {
+  tags?: [string]
+  summary?: string
+  description?: string
+  externalDocs?: string
+  operationId?: string
+  parameters?: [Parameter, Reference]
+  requestBody?: Parameter | Reference
+  responses: Responses
+  // callbacks?: Map<string, Callback | Reference>
+  deprecated?: boolean
+  // security?: [SecurityRequirement]
+  servers?: [Server]
+}
 export interface PathItem {
-  //     $ref	string	Allows for an external definition of this path item.The referenced structure MUST be in the format of a Path Item Object.If there are conflicts between the referenced definition and this Path Item's definition, the behavior is undefined.
-  // summary	string	An optional, string summary, intended to apply to all operations in this path.
-  // description	string	An optional, string description, intended to apply to all operations in this path.CommonMark syntax MAY be used for rich text representation.
-  // get	Operation Object	A definition of a GET operation on this path.
-  // put	Operation Object	A definition of a PUT operation on this path.
-  // post	Operation Object	A definition of a POST operation on this path.
-  // delete Operation Object	A definition of a DELETE operation on this path.
-  // options	Operation Object	A definition of a OPTIONS operation on this path.
-  // head	Operation Object	A definition of a HEAD operation on this path.
-  // patch	Operation Object	A definition of a PATCH operation on this path.
-  // trace	Operation Object	A definition of a TRACE operation on this path.
-  //     servers[Server Object]An alternative server array to service all operations in this path.
-  //         parameters[Parameter Object | Reference Object]A list of parameters that are applicable for all the operations described under this path.These parameters can be overridden at the operation level, but cannot be removed there.The list MUST NOT include duplicated parameters.A unique parameter is defined by a combination of a name and location.The list can use the Reference Object to link to parameters that are defined at the OpenAPI Object's components/parameters.
+  $ref?: string
+  summary?: string
+  description?: string
+  get: Operation
+  put: Operation
+  post: Operation
+  delete: Operation
+  options: Operation
+  head: Operation
+  patch: Operation
+  trace: Operation
+  servers?: [Server]
+  parameters?: [Parameter, Reference]
 }
 
 export interface OpenAPI {
@@ -37,4 +107,3 @@ export interface OpenAPI {
   // tags	[Tag Object]	A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object must be declared. The tags that are not declared MAY be organized randomly or based on the tools' logic. Each tag name in the list MUST be unique.
   // externalDocs	External Documentation Object	Additional external documentation.
 }
-

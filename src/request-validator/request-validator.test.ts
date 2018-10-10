@@ -1,7 +1,7 @@
-import requestValidator from './request-validator'
+import requestValidator from "./request-validator"
 
-describe('requestValidator', () => {
-  test('calls next', () => {
+describe("requestValidator", () => {
+  test("calls next", () => {
     const req = {}
     const res = {}
     const next = jest.fn()
