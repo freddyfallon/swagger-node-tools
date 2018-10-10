@@ -3,5 +3,6 @@
   "editor.formatOnSave": true,
   "tslint.packageManager": "yarn",
   "prettier.semi": false,
-  "prettier.singleQuote": true
+  "prettier.singleQuote": true,
+  "rainbowString.extensions": ["js"]
 }
