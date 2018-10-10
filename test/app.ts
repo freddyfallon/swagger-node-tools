@@ -3,10 +3,12 @@ import swaggerNodeTools from "../src/validator"
 
 const app = express()
 
-app.use(swaggerNodeTools)
+app.use(swaggerNodeTools('string'))
 
-app.post("/", (req: express.Request, res: express.Response) => {
-  res.status(200).send({ this: "works" })
+app.post("/", (req : express.Request, res : express.Response) => {
+  res
+    .status(200)
+    .send({this: "works"})
 })
 
 export default app
