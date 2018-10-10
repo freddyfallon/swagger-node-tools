@@ -1,5 +1,4 @@
 import { OpenAPI } from '../interfaces'
-export default (document: OpenAPI) => {
-    return true
+import pathsValidator from './paths-validator'
 
-}
+export default (document: OpenAPI): boolean => pathsValidator(document)
