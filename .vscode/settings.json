@@ -1,5 +1,4 @@
 {
-  "prettier.semi": false,
   "editor.formatOnSave": true,
   "tslint.packageManager": "yarn"
 }

@@ -1,2 +1,2 @@
-import validator from './validator'
+import validator from './request-validator'
 export default validator
