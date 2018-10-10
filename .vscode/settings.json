@@ -1,5 +1,7 @@
 {
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "tslint.packageManager": "yarn"
+  "tslint.packageManager": "yarn",
+  "prettier.semi": false,
+  "prettier.singleQuote": true
 }
