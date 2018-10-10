@@ -1,11 +1,12 @@
 import express from "express"
-import swaggerNodeTools from "../src/request-validator"
+import swaggerNodeTools from "../src"
 
 const app = express()
 
-const openApiDoc = __dirname + '../openapi.yml'
 
-app.use(swaggerNodeTools(__dirname + '/../openapi.yml'))
+const openApiDoc = __dirname + '/../openapi.yml'
+
+app.use(swaggerNodeTools(openApiDoc))
 
 app.post("/", (req: express.Request, res: express.Response) => {
   res

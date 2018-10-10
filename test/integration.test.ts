@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from './app'
 
-describe('swaggerNodeTools', () => {  
+describe('swaggerNodeTools', () => {
   test('works without an error', (done) => {
     request(app)
       .post('/')
@@ -11,7 +11,7 @@ describe('swaggerNodeTools', () => {
         if (err) {
           console.error(err)
         }
-        expect(res.body).toEqual({this: 'works'})
+        expect(res.body).toEqual({ this: 'works' })
         done()
       })
   })
