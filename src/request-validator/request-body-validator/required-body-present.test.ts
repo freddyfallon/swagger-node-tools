@@ -1,4 +1,4 @@
-import requestBodyValidator from './request-body-validator'
+import requestBodyValidator from '.'
 const content = new Map()
 content.set('application/json', {})
 const requestBody = {

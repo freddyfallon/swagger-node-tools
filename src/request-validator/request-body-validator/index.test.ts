@@ -1,5 +1,5 @@
 jest.mock('./required-body-present')
-import requestBodyValidator from './request-body-validator'
+import requestBodyValidator from '.'
 import requiredBodyPresent from './required-body-present'
 
 const content = new Map()
