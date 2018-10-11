@@ -1,96 +1,3 @@
-export interface Info {
-  title: string // REQUIRED. The title of the application.
-  // description: string	//A short description of the application. CommonMark syntax MAY be used for rich text representation.
-  // termsOfService: string	//A URL to the Terms of Service for the API. MUST be in the format of a URL.
-  // contact: Contact //Object	The contact information for the exposed API.
-  // license: License //Object	The license information for the exposed API.
-  version: string //	REQUIRED. The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).
-}
-
-type HttpVerb =
-  | 'get'
-  | 'put'
-  | 'post'
-  | 'delete'
-  | 'options'
-  | 'head'
-  | 'patch'
-  | 'trace'
-
-type Bar = { [key in HttpVerb]: string }
-
-interface ServerVariableObject {
-  enum?: [string]
-  default: string
-  description?: string
-}
-
-interface Server {
-  url: string
-  description?: string
-  variable?: Map<string, ServerVariableObject>
-}
-
-export interface Parameter {
-  name: string
-  in: string
-  description?: string
-  required: boolean // if the parameter location is path it is required, otherwise it isn't: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
-  deprecated?: boolean
-  allowEmptyValue?: boolean
-}
-
-export interface Reference {
-  $ref: string
-}
-
-interface Header {}
-
-interface MediaType {}
-
-interface Link {}
-
-interface Response {
-  description: string
-  headers?: Map<string, Header | Reference>
-  content?: Map<string, MediaType>
-  links?: Map<string, Link | Reference>
-}
-
-interface Responses {
-  default: Response | Reference
-  [statusCode: number]: Response | Reference
-}
-
-// interface Callback {
-//   [expression: string]: PathItem
-// }
-
-// interface SecurityRequirement {
-//   [name: string]: [string]
-// }
-
-/*
-Each name MUST correspond to a security scheme which is declared in the Security Schemes under the Components Object.
-If the security scheme is of type "oauth2" or "openIdConnect", then the value is a list of scope names required for the execution.
-For other security scheme types, the array MUST be empty.
-*/
-
-export interface Operation {
-  tags?: [string]
-  summary?: string
-  description?: string
-  externalDocs?: string
-  operationId?: string
-  parameters?: [Parameter, Reference]
-  requestBody?: Parameter | Reference
-  responses: Responses
-  // callbacks?: Map<string, Callback | Reference>
-  deprecated?: boolean
-  // security?: [SecurityRequirement]
-  servers?: [Server]
-}
-
 export interface OpenAPI {
   openapi: string // REQUIRED. This string MUST be the semantic version number of the OpenAPI Specification version that the OpenAPI document uses. The openapi field SHOULD be used by tooling specifications and clients to interpret the OpenAPI document. This is not related to the API info.version string.
   info: Info // REQUIRED. Provides metadata about the API. The metadata MAY be used by tooling as required.
@@ -100,6 +7,15 @@ export interface OpenAPI {
   // security	[Security Requirement Object]	A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a request. Individual operations can override this definition.
   // tags	[Tag Object]	A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object must be declared. The tags that are not declared MAY be organized randomly or based on the tools' logic. Each tag name in the list MUST be unique.
   // externalDocs	External Documentation Object	Additional external documentation.
+}
+
+export interface Info {
+  title: string // REQUIRED. The title of the application.
+  // description: string	//A short description of the application. CommonMark syntax MAY be used for rich text representation.
+  // termsOfService: string	//A URL to the Terms of Service for the API. MUST be in the format of a URL.
+  // contact: Contact //Object	The contact information for the exposed API.
+  // license: License //Object	The license information for the exposed API.
+  version: string //	REQUIRED. The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).
 }
 
 export interface Paths {
@@ -122,6 +38,60 @@ export interface PathItem {
   parameters?: [Parameter, Reference]
 }
 
+export interface Operation {
+  tags?: [string]
+  summary?: string
+  description?: string
+  externalDocs?: string
+  operationId?: string
+  parameters?: [Parameter, Reference]
+  requestBody?: Parameter | Reference
+  responses: Responses
+  // callbacks?: Map<string, Callback | Reference>
+  deprecated?: boolean
+  // security?: [SecurityRequirement]
+  servers?: [Server]
+}
+
+interface Responses {
+  default: Response | Reference
+  [statusCode: number]: Response | Reference
+}
+
+interface Response {
+  description: string
+  headers?: Map<string, Header | Reference>
+  content?: Map<string, MediaType>
+  links?: Map<string, Link | Reference>
+}
+
+interface Header {}
+
+export interface Parameter {
+  name: string
+  in: string
+  description?: string
+  required: boolean // if the parameter location is path it is required, otherwise it isn't: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
+  deprecated?: boolean
+  allowEmptyValue?: boolean
+}
+
+export interface Reference {
+  $ref: string
+}
+
+interface Server {
+  url: string
+  description?: string
+  variable?: Map<string, ServerVariableObject>
+}
+
+interface ServerVariableObject {
+  enum?: [string]
+  default: string
+  description?: string
+}
+
 interface Components {
   schemas?: Map<string, Schema | Reference>
   responses?: Map<string, Response | Reference>
@@ -133,6 +103,8 @@ interface Components {
   // callbacks?:	Map<string, Callback | Reference>
 }
 
+interface Link {}
+
 export interface Schema {
   [key: string]: object
 }
@@ -142,3 +114,29 @@ export interface RequestBody {
   content: Map<string, MediaType>
   required?: boolean
 }
+
+interface MediaType {}
+
+type HttpVerb =
+  | 'get'
+  | 'put'
+  | 'post'
+  | 'delete'
+  | 'options'
+  | 'head'
+  | 'patch'
+  | 'trace'
+
+// interface Callback {
+//   [expression: string]: PathItem
+// }
+
+// interface SecurityRequirement {
+//   [name: string]: [string]
+// }
+
+/*
+Each name MUST correspond to a security scheme which is declared in the Security Schemes under the Components Object.
+If the security scheme is of type "oauth2" or "openIdConnect", then the value is a list of scope names required for the execution.
+For other security scheme types, the array MUST be empty.
+*/
