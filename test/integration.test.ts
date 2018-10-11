@@ -2,7 +2,7 @@ import request from 'supertest'
 import app from './app'
 
 describe('swaggerNodeTools', () => {
-  test('works without an error', (done) => {
+  test('works without an error', done => {
     request(app)
       .post('/')
       .send('hey')
@@ -16,4 +16,3 @@ describe('swaggerNodeTools', () => {
       })
   })
 })
-
