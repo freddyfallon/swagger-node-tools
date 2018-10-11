@@ -111,11 +111,31 @@ export interface Schema {
 
 export interface RequestBody {
   description?: string
-  content: Map<string, MediaType>
+  content: Map<string, MediaType> // The content of the request body. The key is a media type or media type range and the value describes it. For requests that match multiple keys, only the most specific key is applicable. e.g. text/plain overrides text/*
   required?: boolean
 }
 
-interface MediaType {}
+interface MediaType {
+  schema?: Schema | Reference
+  example?: any
+  examples?: Map<string, Example | Reference>
+  encoding?: Map<string, Encoding>
+}
+
+interface Example {
+  summary?: string
+  description?: string
+  value?: any
+  externalValue?: string
+}
+
+interface Encoding {
+  contentType?: string
+  headers?: Map<string, Header | Reference>
+  style?: string
+  explode?: boolean
+  allowReserved?: boolean
+}
 
 type HttpVerb =
   | 'get'
