@@ -1,9 +1,12 @@
 import express from 'express'
 import swaggerNodeTools from '../src'
+import bodyParser from 'body-parser'
 
 const app = express()
 
 const openApiDoc = __dirname + '/../openapi.yml'
+
+app.use(bodyParser.json())
 
 app.use(swaggerNodeTools(openApiDoc))
 

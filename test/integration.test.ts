@@ -5,7 +5,8 @@ describe('swaggerNodeTools', () => {
   test('works without an error', done => {
     request(app)
       .post('/')
-      .send('hey')
+      .send({ name: 'john' })
+      .set('Accept', 'application/json')
       .expect(200)
       .end((err, res) => {
         if (err) {
