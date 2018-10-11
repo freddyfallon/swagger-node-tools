@@ -1,18 +1,16 @@
-import { OpenAPI } from '../interfaces'
+import { OpenAPI, PathItem } from '../interfaces'
+import getRef from '../helpers/get-ref'
 
-export default (document: any) => {
-  return (req: any, res: any, next: Function): void => {
-    if (!document.paths[req.path]) {
-      return res
-        .status(400)
-        .send(`${req.path} not found in swagger defined paths`)
-    }
+export default (
+  swaggerDoc: OpenAPI,
+  requestSchemaPossibleRef: any,
+  method: string,
+  req: any
+): boolean => {
+  // requestSchema either contains a reference or else the schema would be requestSchema[method]
 
-    if (!document.paths[req.path][req.method.toLowerCase()]) {
-      return res.status(400).send(`${req.method} not valid for ${req.path}`)
-    }
-
-    // validate that request
-    next()
-  }
+  const requestSchema = requestSchemaPossibleRef.$ref
+    ? getRef(swaggerDoc, requestSchemaPossibleRef.$ref)
+    : requestSchemaPossibleRef[method]
+  return true
 }

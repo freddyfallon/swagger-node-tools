@@ -7,10 +7,6 @@ export interface Info {
   version: string //	REQUIRED. The version of the OpenAPI document (which is distinct from the OpenAPI Specification version or the API implementation version).
 }
 
-export interface Paths {
-  [path: string]: PathItem // contains pathItems
-}
-
 type HttpVerb =
   | 'get'
   | 'put'
@@ -80,7 +76,7 @@ If the security scheme is of type "oauth2" or "openIdConnect", then the value is
 For other security scheme types, the array MUST be empty.
 */
 
-interface Operation {
+export interface Operation {
   tags?: [string]
   summary?: string
   description?: string
@@ -94,6 +90,22 @@ interface Operation {
   // security?: [SecurityRequirement]
   servers?: [Server]
 }
+
+export interface OpenAPI {
+  openapi: string // REQUIRED. This string MUST be the semantic version number of the OpenAPI Specification version that the OpenAPI document uses. The openapi field SHOULD be used by tooling specifications and clients to interpret the OpenAPI document. This is not related to the API info.version string.
+  info: Info // REQUIRED. Provides metadata about the API. The metadata MAY be used by tooling as required.
+  // servers	[Server Object]	An array of Server Objects, which provide connectivity information to a target server. If the servers property is not provided, or is an empty array, the default value would be a Server Object with a url value of /.
+  paths: Paths // REQUIRED. The available paths and operations for the API.
+  components?: Components // Object	An element to hold various schemas for the specification.
+  // security	[Security Requirement Object]	A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a request. Individual operations can override this definition.
+  // tags	[Tag Object]	A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object must be declared. The tags that are not declared MAY be organized randomly or based on the tools' logic. Each tag name in the list MUST be unique.
+  // externalDocs	External Documentation Object	Additional external documentation.
+}
+
+export interface Paths {
+  [path: string]: PathItem // contains pathItems
+}
+
 export interface PathItem {
   $ref?: string
   summary?: string
@@ -110,13 +122,42 @@ export interface PathItem {
   parameters?: [Parameter, Reference]
 }
 
-export interface OpenAPI {
-  openapi: string // REQUIRED. This string MUST be the semantic version number of the OpenAPI Specification version that the OpenAPI document uses. The openapi field SHOULD be used by tooling specifications and clients to interpret the OpenAPI document. This is not related to the API info.version string.
-  info: Info // REQUIRED. Provides metadata about the API. The metadata MAY be used by tooling as required.
-  // servers	[Server Object]	An array of Server Objects, which provide connectivity information to a target server. If the servers property is not provided, or is an empty array, the default value would be a Server Object with a url value of /.
-  paths: Paths // REQUIRED. The available paths and operations for the API.
-  // components	Components Object	An element to hold various schemas for the specification.
-  // security	[Security Requirement Object]	A declaration of which security mechanisms can be used across the API. The list of values includes alternative security requirement objects that can be used. Only one of the security requirement objects need to be satisfied to authorize a request. Individual operations can override this definition.
-  // tags	[Tag Object]	A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools. Not all tags that are used by the Operation Object must be declared. The tags that are not declared MAY be organized randomly or based on the tools' logic. Each tag name in the list MUST be unique.
-  // externalDocs	External Documentation Object	Additional external documentation.
+interface Components {
+  schemas?: Map<string, Schema | Reference>
+  responses?: Map<string, Response | Reference>
+  parameters?: Map<string, Parameter | Reference>
+  // examples?:	Map<string, Example | Reference>
+  // requestBodies?:	Map<string, RequestBody | Reference>
+  // securitySchemes?:	Map<string, SecurityScheme | Reference>
+  links?: Map<string, Link | Reference>
+  // callbacks?:	Map<string, Callback | Reference>
 }
+
+interface Schema {
+  [key: string]: object
+}
+
+interface Map<K, V> {
+  clear(): void
+  delete(key: K): boolean
+  entries(): IterableIterator<[K, V]>
+  forEach(
+    callbackfn: (value: V, index: K, map: Map<K, V>) => void,
+    thisArg?: any
+  ): void
+  get(key: K): V
+  has(key: K): boolean
+  keys(): IterableIterator<K>
+  set(key: K, value?: V): Map<K, V>
+  size: number
+  values(): IterableIterator<V>
+  [Symbol.iterator](): IterableIterator<[K, V]>
+  [Symbol.toStringTag]: string
+}
+
+interface MapConstructor {
+  new <K, V>(): Map<K, V>
+  new <K, V>(iterable: Iterable<[K, V]>): Map<K, V>
+  prototype: Map<any, any>
+}
+declare var Map: MapConstructor

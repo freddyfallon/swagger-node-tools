@@ -3,8 +3,9 @@ import yaml from 'js-yaml'
 import express from 'express'
 import R from 'ramda'
 
-import validator from './request-validator/request-validator'
+import validator from './request-validator'
 import constants from './constants'
+import { OpenAPI } from './interfaces'
 
 const { NO_FILE_PATH_ERROR } = constants
 
@@ -13,6 +14,6 @@ export default (document: string): express.RequestHandler => {
     throw new Error(NO_FILE_PATH_ERROR)
   }
   const documentString = fs.readFileSync(document, { encoding: 'utf-8' })
-  const jsonDocument = yaml.safeLoad(documentString)
+  const jsonDocument: OpenAPI = yaml.safeLoad(documentString)
   return validator(jsonDocument)
 }
