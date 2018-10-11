@@ -31,7 +31,7 @@ interface Server {
   variable?: Map<string, ServerVariableObject>
 }
 
-interface Parameter {
+export interface Parameter {
   name: string
   in: string
   description?: string
@@ -40,7 +40,7 @@ interface Parameter {
   allowEmptyValue?: boolean
 }
 
-interface Reference {
+export interface Reference {
   $ref: string
 }
 
@@ -133,10 +133,15 @@ interface Components {
   // callbacks?:	Map<string, Callback | Reference>
 }
 
-interface Schema {
+export interface Schema {
   [key: string]: object
 }
 
+export interface RequestBody {
+  description?: string
+  content: Map<string, MediaType>
+  required?: boolean
+}
 interface Map<K, V> {
   clear(): void
   delete(key: K): boolean
