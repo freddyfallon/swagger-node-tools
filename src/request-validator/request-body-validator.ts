@@ -1,2 +1,2 @@
 import { RequestBody } from '../interfaces'
-export default (req: any, requestBody: RequestBody) => {}
+export default (req: any, requestBody: RequestBody): boolean => true

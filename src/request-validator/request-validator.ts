@@ -17,7 +17,10 @@ export default (
 
   const requestSchema = pathSchema[method]
 
-  parameterValidator(req, requestSchema.parameters)
-  requestBodyValidator(req, requestSchema.requestBody)
-  return true
+  if (
+    requestBodyValidator(req, requestSchema.requestBody) &&
+    parameterValidator(req, requestSchema.parameters)
+  ) {
+    return true
+  } else return false
 }

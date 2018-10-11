@@ -1,2 +1,2 @@
 import { Parameter } from '../interfaces'
-export default (req: any, parameters: [Parameter]) => {}
+export default (req: any, parameters: [Parameter]): boolean => true
