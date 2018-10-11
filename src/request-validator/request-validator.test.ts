@@ -28,17 +28,38 @@ describe('requestValidator', () => {
   })
 
   describe('if the path of the request matches the swaggerDoc', () => {
-    test('calls next', () => {
+    test('calls next if method exists on defined path', () => {
       const path = '/winter'
-      const paths = { '/winter': {} }
+      const paths = { '/winter': { post: {} } }
       const swaggerDoc = { ...minimalValidSwagger, paths }
-      const req = { path }
+      const req = { path, method: 'POST' }
       const res = { status }
 
       expect(send).not.toHaveBeenCalled()
       expect(next).not.toHaveBeenCalled()
       requestValidator(swaggerDoc)(req, res, next)
       expect(next).toHaveBeenCalled()
+    })
+
+    test('returns a 400 if method does not exist on defined path', () => {
+      const path = '/winter'
+      const paths = {
+        '/winter': {
+          get: {
+            responses: { default: { description: 'Cool' } }
+          }
+        }
+      }
+      const swaggerDoc = { ...minimalValidSwagger, paths }
+      const req = { path, method: 'CHESSEBURGER' }
+      const res = { status }
+
+      expect(send).not.toHaveBeenCalled()
+      expect(next).not.toHaveBeenCalled()
+      requestValidator(swaggerDoc)(req, res, next)
+      expect(next).not.toHaveBeenCalled()
+      expect(status).toHaveBeenCalledWith(400)
+      expect(send).toHaveBeenCalledWith(`${req.method} not valid for ${path}`)
     })
   })
 })

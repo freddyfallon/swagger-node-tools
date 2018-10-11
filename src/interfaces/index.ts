@@ -48,6 +48,19 @@ interface Reference {
   $ref: string
 }
 
+interface Header {}
+
+interface MediaType {}
+
+interface Link {}
+
+interface Response {
+  description: string
+  headers?: Map<string, Header | Reference>
+  content?: Map<string, MediaType>
+  links?: Map<string, Link | Reference>
+}
+
 interface Responses {
   default: Response | Reference
   [statusCode: number]: Response | Reference
