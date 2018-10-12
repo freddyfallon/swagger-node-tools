@@ -22,6 +22,14 @@ export interface Paths {
   [path: string]: PathItem // contains pathItems
 }
 
+type Bar = { [key in HttpVerb]: string }
+
+interface ServerVariableObject {
+  enum?: [string]
+  default: string
+  description?: string
+}
+
 export interface PathItem {
   $ref?: string
   summary?: string
@@ -41,6 +49,10 @@ export interface PathItem {
 export interface Operation {
   tags?: [string]
   summary?: string
+}
+export interface Parameter {
+  name: string
+  in: ParameterLocation
   description?: string
   externalDocs?: string
   operationId?: string
@@ -146,6 +158,8 @@ type HttpVerb =
   | 'head'
   | 'patch'
   | 'trace'
+
+type ParameterLocation = 'query' | 'header' | 'path' | 'cookie'
 
 // interface Callback {
 //   [expression: string]: PathItem
