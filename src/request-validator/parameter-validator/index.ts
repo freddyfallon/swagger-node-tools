@@ -6,7 +6,7 @@ export default (
   parameters: [Parameter],
   swaggerDoc: OpenAPI
 ): any => {
-  if (parameters) {
+  if (parameters.length) {
     const headerParams = find(propEq('in', 'header'))(parameters)
       ? filter(propEq('in', 'header'))(parameters)
       : undefined
