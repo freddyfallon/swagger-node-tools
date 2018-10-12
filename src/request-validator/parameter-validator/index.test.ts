@@ -166,7 +166,7 @@ describe('parameterValidator', () => {
       }
     })
 
-    test('will throw error if parameter is marked as required but are not given', () => {
+    test.skip('will throw error if parameter is marked as required but are not given', () => {
       const req = {
         headers: {}
       }
