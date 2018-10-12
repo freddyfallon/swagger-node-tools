@@ -7,8 +7,8 @@ export default (req: any, parameters: [Parameter]): any => {
       ? filter(propEq('in', 'header'))(parameters)
       : undefined
 
-    const result = compose(checkHeaders)
-    return result(headerParams, req.headers)
+    const checkParams = compose(checkHeaders)
+    return checkParams(headerParams, req.headers)
   }
   return true
 }
