@@ -1,22 +1,14 @@
-import { filter, propEq, type, compose, find } from 'ramda'
+import { filter, propEq, compose, find } from 'ramda'
 import { Parameter } from '../../interfaces'
+import checkHeaders from './check-headers'
 export default (req: any, parameters: [Parameter]): any => {
   if (parameters) {
     const headerParams = find(propEq('in', 'header'))(parameters)
       ? filter(propEq('in', 'header'))(parameters)
-      : null
-    const checkHeaders = () =>
-      headerParams
-        ? headerParams.reduce((validated: boolean, currentHeader: any) => {
-            if (
-              currentHeader.schema.type !== type(req.headers[currentHeader])
-            ) {
-              return false
-            }
-          }, true)
-        : true
+      : undefined
+
     const result = compose(checkHeaders)
-    return result()
+    return result(headerParams, req.headers)
   }
   return true
 }

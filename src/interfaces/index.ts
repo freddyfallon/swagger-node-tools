@@ -21,9 +21,6 @@ export interface Info {
 export interface Paths {
   [path: string]: PathItem // contains pathItems
 }
-
-type Bar = { [key in HttpVerb]: string }
-
 interface ServerVariableObject {
   enum?: [string]
   default: string
