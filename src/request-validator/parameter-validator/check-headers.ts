@@ -12,7 +12,7 @@ export default (
     headerParameters
   )
 
-  requiredFields.forEach((item: any) => {
+  requiredFields.map((item: any) => {
     if (!contains(item.name, keysIn(requestHeaders))) {
       throw new Error(`${item.name} required`)
     }

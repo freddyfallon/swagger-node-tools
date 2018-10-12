@@ -6,6 +6,7 @@ describe('swaggerNodeTools', () => {
     request(app)
       .post('/')
       .set('Content-Type', 'application/json')
+      .set('chill-header', 'here')
       .send({ name: 'john' })
       .set('Accept', 'application/json')
       .expect(200)

@@ -166,7 +166,7 @@ describe('parameterValidator', () => {
       }
     })
 
-    test.skip('will throw error if parameter is marked as required but are not given', () => {
+    test('will throw error if parameter is marked as required but are not given', () => {
       const req = {
         headers: {}
       }
@@ -174,7 +174,7 @@ describe('parameterValidator', () => {
         {
           name: 'cool_header',
           in: 'header',
-          require: true,
+          required: true,
           schema: {
             type: 'string'
           }
@@ -183,11 +183,7 @@ describe('parameterValidator', () => {
       try {
         parameterValidator(req, requiredParams, minimalSwaggerDoc)
       } catch (err) {
-        expect(err).toEqual(
-          Object.assign(
-            Error('Found type of number for cool_header, expected string')
-          )
-        )
+        expect(err).toEqual(Object.assign(Error('cool_header required')))
       }
     })
 
