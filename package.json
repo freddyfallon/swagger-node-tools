@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
-    "start": "nodemon src --watch src --exec ts-node -e ts,js,json,yml",
+    "start": "nodemon --exec ts-node -e ts,js,json,yml test/app.ts",
     "compile": "tsc --noEmit",
     "test": "./node_modules/.bin/jest --watch",
     "test-ci": "./node_modules/.bin/jest"
