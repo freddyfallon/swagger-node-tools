@@ -19,7 +19,7 @@ export default (
 
   if (
     requestBodyValidator(req, requestSchema.requestBody, swaggerDoc) &&
-    parameterValidator(req, requestSchema.parameters)
+    parameterValidator(req, requestSchema.parameters, swaggerDoc)
   ) {
     return true
   } else return false

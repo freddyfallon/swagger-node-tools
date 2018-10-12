@@ -6,13 +6,13 @@ export default (
   parameters: [Parameter],
   swaggerDoc: OpenAPI
 ): any => {
-  if (parameters.length) {
+  if (parameters && parameters.length) {
     const headerParams = find(propEq('in', 'header'))(parameters)
       ? filter(propEq('in', 'header'))(parameters)
       : undefined
 
-    const checkParams = compose(checkHeaders)
-    return checkParams(headerParams, req.headers, swaggerDoc)
+    const result = compose(checkHeaders)
+    return result(headerParams, req.headers, swaggerDoc)
   }
   return true
 }
