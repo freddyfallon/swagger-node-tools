@@ -18,7 +18,7 @@ export default (
   const requestSchema = pathSchema[method]
 
   if (
-    requestBodyValidator(req, requestSchema.requestBody) &&
+    requestBodyValidator(req, requestSchema.requestBody, swaggerDoc) &&
     parameterValidator(req, requestSchema.parameters)
   ) {
     return true

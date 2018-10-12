@@ -5,6 +5,7 @@ describe('swaggerNodeTools', () => {
   test('works without an error', done => {
     request(app)
       .post('/')
+      .set('Content-Type', 'application/json')
       .send({ name: 'john' })
       .set('Accept', 'application/json')
       .expect(200)
