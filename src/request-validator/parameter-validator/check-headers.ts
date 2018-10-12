@@ -6,11 +6,13 @@ export default (headerParameters: any, requestHeaders: any) =>
           currentHeader.schema.type !==
           type(requestHeaders[currentHeader.name]).toLowerCase()
         ) {
-          throw `Found type of ${type(
-            requestHeaders[currentHeader.name]
-          ).toLowerCase()} for ${currentHeader.name}, expected ${
-            currentHeader.schema.type
-          }`
+          throw new Error(
+            `Found type of ${type(
+              requestHeaders[currentHeader.name]
+            ).toLowerCase()} for ${currentHeader.name}, expected ${
+              currentHeader.schema.type
+            }`
+          )
         }
         return result
       }, true)
