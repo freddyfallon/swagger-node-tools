@@ -1,5 +1,6 @@
-import { OpenAPI, RequestBody } from '../../interfaces'
+import { OpenAPI, RequestBody, Schema } from '../../interfaces'
 import mediaTypeMatches from './media-type-matches'
+import bodyMatchesSchema from './body-matches-schema'
 import readMapOrObject from '../../helpers/read-map-or-object'
 
 export default (
@@ -12,8 +13,12 @@ export default (
   }
 
   if (mediaTypeMatches(req, requestBody)) {
-    readMapOrObject(requestBody.content, req.headers['content-type'])
-    return true
+    const content = readMapOrObject(
+      requestBody.content,
+      req.headers['content-type']
+    )
+
+    return bodyMatchesSchema(req, content.schema)
   }
 
   return false
