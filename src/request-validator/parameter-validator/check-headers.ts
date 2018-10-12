@@ -6,9 +6,12 @@ export default (
   headerParameters: any,
   requestHeaders: any,
   swaggerDoc: OpenAPI
-) =>
-  headerParameters
+) => {
+  return headerParameters
     ? headerParameters.reduce((result: any, currentHeader: any) => {
+        if (!requestHeaders[currentHeader.name]) {
+          return true
+        }
         if (currentHeader.schema.$ref) {
           const schema: any = getRef(swaggerDoc, currentHeader.schema.$ref)
           if (
@@ -34,6 +37,7 @@ export default (
         return result
       }, true)
     : true
+}
 
 const throwErrorForWrongType = (
   typeFound: string,
