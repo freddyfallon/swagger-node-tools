@@ -43,8 +43,13 @@ describe('parameterValidator', () => {
           }
         }
       ]
-      const result = parameterValidator(req, requiredParams)
-      expect(result).toBe(false)
+      try {
+        parameterValidator(req, requiredParams)
+      } catch (err) {
+        expect(err).toBe(
+          'Found type of number for cool_header, expected string'
+        )
+      }
     })
     test('will return false if parameter is present as boolean in request where string is required', () => {
       const send = jest.fn()
@@ -64,8 +69,13 @@ describe('parameterValidator', () => {
           }
         }
       ]
-      const result = parameterValidator(req, requiredParams)
-      expect(result).toBe(false)
+      try {
+        parameterValidator(req, requiredParams)
+      } catch (err) {
+        expect(err).toBe(
+          'Found type of boolean for cool_header, expected string'
+        )
+      }
     })
     test('will return true if parameter is present as correct type', () => {
       const send = jest.fn()
@@ -86,7 +96,7 @@ describe('parameterValidator', () => {
         }
       ]
       const result = parameterValidator(req, requiredParams)
-      expect(result).toBe(false)
+      expect(result).toBe(true)
     })
     describe('when parameter is in query', () => {})
     describe('when parameter is in path', () => {})
