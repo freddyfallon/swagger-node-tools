@@ -116,7 +116,7 @@ export interface Schema {
 
 export interface RequestBody {
   description?: string
-  content: Map<string, MediaType> // The content of the request body. The key is a media type or media type range and the value describes it. For requests that match multiple keys, only the most specific key is applicable. e.g. text/plain overrides text/*
+  content: Map<string, MediaType> // TODO: Fix The content of the request body. The key is a media type or media type range and the value describes it. For requests that match multiple keys, only the most specific key is applicable. e.g. text/plain overrides text/*
   required?: boolean
 }
 
