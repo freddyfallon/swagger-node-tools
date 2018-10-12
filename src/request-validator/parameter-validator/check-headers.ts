@@ -9,14 +9,19 @@ export default (
 ) => {
   return headerParameters
     ? headerParameters.reduce((result: any, currentHeader: any) => {
-        if (!requestHeaders[currentHeader.name]) {
+        if (
+          type(requestHeaders) === 'Object' &&
+          !requestHeaders[currentHeader.name]
+        ) {
           return true
         }
         if (currentHeader.schema.$ref) {
           const schema: any = getRef(swaggerDoc, currentHeader.schema.$ref)
           if (
             schema.type !==
-            type(requestHeaders[currentHeader.name]).toLowerCase()
+            type(
+              requestHeaders && requestHeaders[currentHeader.name]
+            ).toLowerCase()
           ) {
             throwErrorForWrongType(
               type(requestHeaders[currentHeader.name]),
@@ -25,8 +30,9 @@ export default (
             )
           }
         } else if (
+          type(requestHeaders) === 'Object' &&
           currentHeader.schema.type !==
-          type(requestHeaders[currentHeader.name]).toLowerCase()
+            type(requestHeaders[currentHeader.name]).toLowerCase()
         ) {
           throwErrorForWrongType(
             type(requestHeaders[currentHeader.name]),
