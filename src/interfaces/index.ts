@@ -46,10 +46,6 @@ export interface PathItem {
 export interface Operation {
   tags?: [string]
   summary?: string
-}
-export interface Parameter {
-  name: string
-  in: ParameterLocation
   description?: string
   externalDocs?: string
   operationId?: string
@@ -78,7 +74,7 @@ interface Header {}
 
 export interface Parameter {
   name: string
-  in: string
+  in: ParameterLocation
   description?: string
   required: boolean // if the parameter location is path it is required, otherwise it isn't: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
   deprecated?: boolean
