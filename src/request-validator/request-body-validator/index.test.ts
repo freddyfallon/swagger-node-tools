@@ -6,8 +6,14 @@ import requiredBodyPresent from './required-body-present'
 import requestBodyContent from './request-body-content'
 import minimalSwagger from '../../minimal-swagger'
 
+const applicationJSON = 'application/json'
+const req = {
+  headers: {
+    'content-type': applicationJSON
+  }
+}
 const content = new Map()
-content.set('application/json', {})
+content.set(applicationJSON, {})
 const requestBody = {
   content
 }
@@ -21,7 +27,7 @@ describe('requestBodyValidator', () => {
     ;(requiredBodyPresent as jest.Mock).mockReturnValue(true)
     ;(requestBodyContent as jest.Mock).mockReturnValue(true)
     expect(requiredBodyPresent).not.toHaveBeenCalled()
-    requestBodyValidator({}, requestBody, minimalSwagger)
+    requestBodyValidator(req, requestBody, minimalSwagger)
     expect(requiredBodyPresent).toHaveBeenCalled()
   })
 
@@ -29,7 +35,7 @@ describe('requestBodyValidator', () => {
     ;(requiredBodyPresent as jest.Mock).mockReturnValue(false)
     ;(requestBodyContent as jest.Mock).mockReturnValue(true)
     expect(requiredBodyPresent).not.toHaveBeenCalled()
-    const result = requestBodyValidator({}, requestBody, minimalSwagger)
+    const result = requestBodyValidator(req, requestBody, minimalSwagger)
     expect(requiredBodyPresent).toHaveBeenCalled()
     expect(result).toBe(false)
   })
@@ -38,7 +44,7 @@ describe('requestBodyValidator', () => {
     ;(requiredBodyPresent as jest.Mock).mockReturnValue(true)
     ;(requestBodyContent as jest.Mock).mockReturnValue(true)
     expect(requiredBodyPresent).not.toHaveBeenCalled()
-    const result = requestBodyValidator({}, requestBody, minimalSwagger)
+    const result = requestBodyValidator(req, requestBody, minimalSwagger)
     expect(requiredBodyPresent).toHaveBeenCalled()
     expect(result).toBe(true)
   })
@@ -46,14 +52,14 @@ describe('requestBodyValidator', () => {
   test('calls requestBodyContent if requiredBodyPresent returns true', () => {
     ;(requiredBodyPresent as jest.Mock).mockReturnValue(true)
     expect(requestBodyContent).not.toHaveBeenCalled()
-    requestBodyValidator({}, requestBody, minimalSwagger)
+    requestBodyValidator(req, requestBody, minimalSwagger)
     expect(requestBodyContent).toHaveBeenCalled()
   })
 
   test('does not call requestBodyContent if requiredBodyPresent returns false', () => {
     ;(requiredBodyPresent as jest.Mock).mockReturnValue(false)
     expect(requestBodyContent).not.toHaveBeenCalled()
-    requestBodyValidator({}, requestBody, minimalSwagger)
+    requestBodyValidator(req, requestBody, minimalSwagger)
     expect(requestBodyContent).not.toHaveBeenCalled()
   })
 })

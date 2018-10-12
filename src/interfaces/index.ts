@@ -50,7 +50,7 @@ export interface Operation {
   externalDocs?: string
   operationId?: string
   parameters?: [Parameter, Reference]
-  requestBody?: Parameter | Reference
+  requestBody?: RequestBody | Reference
   responses: Responses
   // callbacks?: Map<string, Callback | Reference>
   deprecated?: boolean

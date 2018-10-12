@@ -4,6 +4,12 @@ import minimalValidSwagger from '../minimal-swagger'
 const status = jest.fn()
 const send = jest.fn()
 const next = jest.fn()
+const headers = { 'content-type': 'application/json' }
+const content = new Map()
+content.set('application/json', {})
+const requestBody = {
+  content
+}
 
 describe('requestValidator', () => {
   beforeEach(() => {
@@ -14,7 +20,7 @@ describe('requestValidator', () => {
   })
   describe("if the path of the request doesn't match the swaggerDoc", () => {
     test('return a 400 with error message', () => {
-      const req = { path: '/' }
+      const req = { path: '/', headers }
       const res = { status }
 
       requestValidator(minimalValidSwagger)(req, res, next)
@@ -31,10 +37,17 @@ describe('requestValidator', () => {
     test('calls next if method exists on defined path', () => {
       const path = '/winter'
       const paths = {
-        '/winter': { post: { responses: { default: { description: 'Cool' } } } }
+        '/winter': {
+          post: {
+            responses: {
+              default: { description: 'Cool' }
+            },
+            requestBody
+          }
+        }
       }
       const swaggerDoc = { ...minimalValidSwagger, paths }
-      const req = { path, method: 'POST' }
+      const req = { path, method: 'POST', headers }
       const res = { status }
 
       expect(send).not.toHaveBeenCalled()
@@ -48,12 +61,13 @@ describe('requestValidator', () => {
       const paths = {
         '/winter': {
           get: {
-            responses: { default: { description: 'Cool' } }
+            responses: { default: { description: 'Cool' } },
+            requestBody
           }
         }
       }
       const swaggerDoc = { ...minimalValidSwagger, paths }
-      const req = { path, method: 'CHESSEBURGER' }
+      const req = { path, method: 'CHESSEBURGER', headers }
       const res = { status }
 
       expect(send).not.toHaveBeenCalled()
@@ -76,7 +90,8 @@ describe('requestValidator', () => {
             default: {
               description: 'Cool'
             }
-          }
+          },
+          requestBody
         }
       })
       const swaggerDoc = {
@@ -86,7 +101,7 @@ describe('requestValidator', () => {
           schemas
         }
       }
-      const req = { path, method: 'GET' }
+      const req = { path, method: 'GET', headers }
       const res = { status }
 
       expect(send).not.toHaveBeenCalled()
@@ -105,7 +120,8 @@ describe('requestValidator', () => {
             default: {
               description: 'Cool'
             }
-          }
+          },
+          requestBody
         }
       })
       const swaggerDoc = {

@@ -9,4 +9,4 @@ export default (
   swaggerDoc: OpenAPI
 ): boolean =>
   requireBodyPresent(req, R.propOr(false, 'required')(requestBody)) &&
-  requestBodyContent()
+  requestBodyContent(req, requestBody, swaggerDoc)
