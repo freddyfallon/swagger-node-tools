@@ -7,6 +7,11 @@ export default (
   req: any,
   requestBody: RequestBody,
   swaggerDoc: OpenAPI
-): boolean =>
-  requireBodyPresent(req, R.propOr(false, 'required')(requestBody)) &&
-  requestBodyContent(req, requestBody, swaggerDoc)
+): boolean => {
+  const bodyIsRequired: boolean = R.propOr(false, 'required')(requestBody)
+
+  return (
+    requireBodyPresent(req, bodyIsRequired) &&
+    requestBodyContent(req, requestBody, swaggerDoc)
+  )
+}
