@@ -1,4 +1,4 @@
-import { type } from 'ramda'
+import { map, type, filter, propEq, keysIn, contains } from 'ramda'
 import getRef from '../../helpers/get-ref'
 import { OpenAPI } from '../../interfaces'
 
@@ -7,6 +7,17 @@ export default (
   requestHeaders: any,
   swaggerDoc: OpenAPI
 ) => {
+  const requiredFields = filter(
+    item => propEq('required', true, item),
+    headerParameters
+  )
+
+  requiredFields.forEach((item: any) => {
+    if (!contains(item.name, keysIn(requestHeaders))) {
+      throw new Error(`${item.name} required`)
+    }
+  })
+
   return headerParameters
     ? headerParameters.reduce((result: any, currentHeader: any) => {
         if (
@@ -19,9 +30,7 @@ export default (
           const schema: any = getRef(swaggerDoc, currentHeader.schema.$ref)
           if (
             schema.type !==
-            type(
-              requestHeaders && requestHeaders[currentHeader.name]
-            ).toLowerCase()
+            type(requestHeaders[currentHeader.name]).toLowerCase()
           ) {
             throwErrorForWrongType(
               type(requestHeaders[currentHeader.name]),
