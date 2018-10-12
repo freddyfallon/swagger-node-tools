@@ -1,5 +1,5 @@
 import { filter, propEq, type, compose, find } from 'ramda'
-import { Parameter } from '../interfaces'
+import { Parameter } from '../../interfaces'
 export default (req: any, parameters: [Parameter]): any => {
   if (parameters) {
     const headerParams = find(propEq('in', 'header'))(parameters)

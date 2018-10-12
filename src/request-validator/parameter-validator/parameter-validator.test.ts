@@ -1,4 +1,4 @@
-import parameterValidator from './parameter-validator'
+import parameterValidator from '.'
 
 describe('parameterValidator', () => {
   describe('when parameter is in header and is required', () => {
