@@ -14,6 +14,21 @@ app.post('/', (req: express.Request, res: express.Response) => {
   res.status(200).send({ this: 'works' })
 })
 
+app.post('/header', (req: express.Request, res: express.Response) => {
+  res.status(200).send({ this: 'works' })
+})
+
+app.post('/noheader', (req: express.Request, res: express.Response) => {
+  res.status(200).send({ this: 'works' })
+})
+
+app.post(
+  '/routeoutsideswagger',
+  (req: express.Request, res: express.Response) => {
+    res.status(200).send({ this: 'works' })
+  }
+)
+
 app.listen(3000)
 
 export default app

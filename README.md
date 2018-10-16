@@ -5,6 +5,8 @@ Components:
 - File validator
 - Request validator
 
+Swagger 3 spec: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md
+
 # Primary focus should be on req/res validation
 
 - [] Identify which parts of the doc are our immediate focus

@@ -8,7 +8,7 @@ export default (req: any, schema: Schema): boolean => {
   return Object.entries(req.body)
     .map(([k = '', v]) => {
       const string = R.propOr('', k)(schema)
-      return schemaValidation(v, string)
+      return R.has(k, schema) && schemaValidation(v, string)
     })
     .every(x => x === true)
 }
