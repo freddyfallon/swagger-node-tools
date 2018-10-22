@@ -1,6 +1,8 @@
 jest.mock('./media-type-matches')
+jest.mock('./body-matches-schema')
 import requestBodyContent from './request-body-content'
 import mediaTypeMatches from './media-type-matches'
+import bodyMatchesSchema from './body-matches-schema'
 import minimalSwagger from '../../minimal-swagger'
 import { json } from 'body-parser'
 
@@ -15,7 +17,7 @@ const req = {
     'content-type': applicationJSON
   }
 }
-const body = JSON.stringify({ some: 'data' })
+const body = {}
 
 describe('requestBodyContent', () => {
   afterEach(() => {
@@ -28,19 +30,43 @@ describe('requestBodyContent', () => {
       test('it should call mediaTypeMatches', () => {
         expect(mediaTypeMatches).not.toHaveBeenCalled()
         requestBodyContent(
-          { req, body },
+          { ...req, body },
           { ...requestBody, required: true },
           minimalSwagger
         )
         expect(mediaTypeMatches).toHaveBeenCalled()
       })
+      describe('mediaTypeMatches returns false', () => {
+        test('it should not call bodyMatchesSchema', () => {
+          ;(mediaTypeMatches as jest.Mock).mockReturnValue(false)
+          expect(bodyMatchesSchema).not.toHaveBeenCalled()
+          requestBodyContent(
+            { ...req, body },
+            { ...requestBody, required: true },
+            minimalSwagger
+          )
+          expect(bodyMatchesSchema).not.toHaveBeenCalled()
+        })
+      })
+      describe('mediaTypeMatches returns true', () => {
+        test('it should call bodyMatchesSchema', () => {
+          ;(mediaTypeMatches as jest.Mock).mockReturnValue(true)
+          expect(bodyMatchesSchema).not.toHaveBeenCalled()
+          requestBodyContent(
+            { ...req, body },
+            { ...{ ...requestBody }, required: true },
+            minimalSwagger
+          )
+          expect(bodyMatchesSchema).toHaveBeenCalled()
+        })
+      })
     })
-    // body required && !present -> false? no call?
+    // body required && !present -> no call
     describe('requestBody is required and req.body not present', () => {
       test('it should call mediaTypeMatches', () => {
         expect(mediaTypeMatches).not.toHaveBeenCalled()
         requestBodyContent(
-          { req },
+          { ...req },
           { ...requestBody, required: true },
           minimalSwagger
         )
@@ -52,7 +78,7 @@ describe('requestBodyContent', () => {
       test('it should call mediaTypeMatches', () => {
         expect(mediaTypeMatches).not.toHaveBeenCalled()
         requestBodyContent(
-          { req, body },
+          { ...req, body },
           { ...requestBody, required: false },
           minimalSwagger
         )
@@ -64,7 +90,7 @@ describe('requestBodyContent', () => {
       test('it should call mediaTypeMatches', () => {
         expect(mediaTypeMatches).not.toHaveBeenCalled()
         requestBodyContent(
-          { req },
+          { ...req },
           { ...requestBody, required: false },
           minimalSwagger
         )
@@ -72,10 +98,10 @@ describe('requestBodyContent', () => {
       })
     })
     // body required not specified (default) && !present -> no call
-    describe('requestBody required is not specified and req.body not present', () => {
+    describe('requestBody required is not specified (default to false) and req.body not present', () => {
       test('it should call mediaTypeMatches', () => {
         expect(mediaTypeMatches).not.toHaveBeenCalled()
-        requestBodyContent({ req }, { ...requestBody }, minimalSwagger)
+        requestBodyContent({ ...req }, { ...requestBody }, minimalSwagger)
         expect(mediaTypeMatches).not.toHaveBeenCalled()
       })
     })
